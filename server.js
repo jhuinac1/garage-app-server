@@ -8,6 +8,7 @@ const app = express();
 const path = require("path");
 const db = mongoose.connection;
 const postController = require("./controllers/post-controllers");
+const cors = require("cors");
 
 
 require("dotenv").config();
@@ -49,17 +50,18 @@ app.use(express.json());// returns middleware that only parses JSON - may or may
 //===========================
 //  ROUTES
 //==========================
+app.use(cors());
 app.use("/posts", postController);
-app.use(express.static(path.join(__dirname, "build")));
+// app.use(express.static(path.join(__dirname, "build")));
 
 
-app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "public", "index.html"));
-});
+// app.get("/*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "build", "public", "index.html"));
+// });
 
-// app.get("/", (req, res) => {
-//     res.redirect("/posts");
-// })
+app.get("/", (req, res) => {
+    res.redirect("/posts");
+})
 //===========================
 //  LISTENER
 //==========================
