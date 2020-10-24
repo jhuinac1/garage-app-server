@@ -6,13 +6,13 @@ const postRouter = express.Router();
 
 postRouter.get("/", (req, res) => {
     Post.find({}, (error, data) => {
-        res.send(data);
+        res.json(data);
     });
 });
 
 postRouter.post("/", (req, res) => {
     Post.create(req.body, (error, newPost) => {
-        res.send(newPost);
+        res.json(newPost);
     });
 });
 
