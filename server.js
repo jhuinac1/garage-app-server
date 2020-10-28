@@ -7,9 +7,10 @@ const mongoose = require('mongoose');
 const app = express();
 const path = require("path");
 const db = mongoose.connection;
-const postController = require("./controllers/post-controllers");
 const cors = require("cors");
-
+//  controllers
+const postController = require("./controllers/post-controllers");
+const userController = require("./controllers/user-controllers");
 
 require("dotenv").config();
 
@@ -32,7 +33,8 @@ const MONGODB_URI = process.env.MONGODB_URI;
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 });
 //===========================
 //  ERROR / SUCCESS
@@ -45,13 +47,14 @@ db.on('disconnected', () => console.log('mongo disconnected'));
 //==========================
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
 app.use(express.urlencoded({ extended: false }));// extended: false - does not allow nested objects in query strings
-app.use(express.json());// returns middleware that only parses JSON - may or may not need it depending on your project
+app.use(express.json());// json body parser, we can read json objects from the requests that we send to express... returns middleware that only parses JSON - may or may not need it depending on your project
 
 //===========================
 //  ROUTES
 //==========================
-app.use(cors());
+app.use(cors());//if cors is required
 app.use("/posts", postController);
+app.use("/users", userController);
 // app.use(express.static(path.join(__dirname, "build")));
 
 

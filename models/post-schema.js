@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
+    category: { type: String, required: true },
     title: { type: String, required: true },
     price: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },
-    location: { type: String },
+    pictures: [String],
+    city: { type: String, required: true },
+    state: { type: String, required: true }
 }, {
     timestamps: true,
 });
