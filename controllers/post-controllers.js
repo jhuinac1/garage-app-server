@@ -9,6 +9,12 @@ postRouter.get("/byName/:cityName", (req, res) => {
     });
 });
 
+postRouter.get("/userPosts/:id", (req, res) => {
+    Post.find({ uId: req.params.id }, (error, data) => {
+        res.json(data);
+    });
+});
+
 postRouter.get("/:id", (req, res) => {
     Post.findById(req.params.id, (error, data) => {
         res.json(data);

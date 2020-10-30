@@ -7,7 +7,8 @@ const postSchema = new mongoose.Schema({
     description: { type: String, required: true },
     pictures: [String],
     city: { type: String, required: true },
-    state: { type: String, required: true }
+    contactInfo: { type: String, required: true },
+    uId: { type: String, required: true }
 }, {
     timestamps: true,
 });

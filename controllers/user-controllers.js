@@ -3,12 +3,10 @@ const User = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const auth = require("../middleware/authentication");
+const { Router } = require("express");
 
 
-userRouter.get("/", (req, res) => {
-    res.send("hello world!");
-}
-)
+
 
 userRouter.post("/sign-up", async (req, res) => {
     try {
@@ -50,7 +48,7 @@ userRouter.post("/sign-up", async (req, res) => {
         return res.send("made it to the end");
 
     } catch (error) {
-        res.status(500).json({ error: error.message })
+        res.status(500).json({ msg: error.message })
         console.log(error);
     }
 
@@ -83,7 +81,6 @@ userRouter.post("/login", async (req, res) => {
             user: {
                 id: user._id,
                 displayName: user.displayName,
-                email: user.email,
             },
         })
 
@@ -128,8 +125,21 @@ userRouter.post("/isTokenValid", async (req, res) => {
         res.status(500).json({ error: error.message })
         console.log(error);
     }
-}
-)
+});
+
+userRouter.get("/info", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user);
+        res.status(200).json({
+            displayName: user.displayName,
+            id: user._id
+        });
+    } catch (error) {
+        res.status(418).json({ error: error.message })
+        console.log(error);
+    }
+
+});
 
 
 
