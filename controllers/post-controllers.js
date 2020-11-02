@@ -9,6 +9,16 @@ postRouter.get("/byName/:cityName", (req, res) => {
     });
 });
 
+postRouter.delete("/deletePost/:id", (req, res) => {
+    Post.findByIdAndDelete(req.params.id, (error, data) => {
+        Post.find({ uId: data.uId }, (error, data) => {
+            res.json(data);
+        }
+        )
+    });
+}
+)
+
 postRouter.get("/userPosts/:id", (req, res) => {
     Post.find({ uId: req.params.id }, (error, data) => {
         res.json(data);
